@@ -1,14 +1,15 @@
 import { test, expect } from '@applitools/eyes-playwright/fixture';
 
 test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+  // domcontentloaded: Firefox often never fires the load event on this site.
+  await page.goto('https://playwright.dev/', { waitUntil: 'domcontentloaded' });
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Playwright/);
 });
 
 test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+  await page.goto('https://playwright.dev/', { waitUntil: 'domcontentloaded' });
 
   // Click the get started link.
   await page.getByRole('link', { name: 'Get started' }).click();
